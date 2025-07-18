@@ -1,6 +1,7 @@
 streamlit==1.29.0
 tensorflow==2.15.0
 opencv-python-headless
+keras==2.11
 numpy
 pillow
 matplotlib
