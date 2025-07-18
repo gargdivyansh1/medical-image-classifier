@@ -1,0 +1,22 @@
+1. Data Loading & Cleaning
+    └── Normalize, resize, clean corrupted images
+
+2. Exploratory Data Analysis (EDA)
+    └── Image shape, label distribution, sample visualization
+
+3. Data Augmentation
+    └── HorizontalFlip, Rotation, Zoom, Shift
+
+4. Model Selection
+    └── CNN from scratch OR fine-tuned pretrained model (e.g., EfficientNet)
+
+5. Model Training & Validation
+    └── Loss: CrossEntropy
+    └── Optimizer: Adam/RMSProp
+    └── Metrics: Accuracy, F1-score
+
+6. Testing & Evaluation
+    └── Confusion matrix, ROC Curve
+
+7. Deployment
+    └── Streamlit app for image upload & prediction
