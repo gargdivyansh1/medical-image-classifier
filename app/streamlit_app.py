@@ -12,7 +12,7 @@ import os
 
 model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'penumonia_model.h5') 
 model_path = os.path.abspath(model_path) 
-model = load_model(model_path)
+model = load_model(model_path compile = False)
 
 # Grad-CAM Function
 def make_gradcam_heatmap(img_array, model, last_conv_layer_name):
