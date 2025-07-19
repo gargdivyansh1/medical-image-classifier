@@ -65,12 +65,12 @@ if uploaded_file:
 
     st.subheader("Prediction:")
     if label == "Pneumonia":
-        st.error(f"⚠️ Pneumonia Detected — Confidence: {confidence:.4f}")
+        st.error(f"Pneumonia Detected — Confidence: {confidence:.4f}")
     else:
-        st.success(f"✅ Normal — Confidence: {1 - confidence:.4f}")
+        st.success(f"Normal — Confidence: {1 - confidence:.4f}")
 
     # Grad-CAM
-    last_conv_layer = "conv5_block16_concat"  # <- replace based on model inspection
+    last_conv_layer = "conv5_block16_concat"  
     heatmap = make_gradcam_heatmap(img_array, model, last_conv_layer)
 
     img_for_overlay = np.array(image.resize((224, 224)))
@@ -90,4 +90,4 @@ Model: {model.name}
     buffer = io.BytesIO()
     buffer.write(report_text.encode())
     buffer.seek(0)
-    st.download_button("📄 Download Report", buffer, file_name="prediction_report.txt", mime="text/plain")
+    st.download_button("Download Report", buffer, file_name="prediction_report.txt", mime="text/plain")
