@@ -14,7 +14,6 @@ model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'penumonia_
 model_path = os.path.abspath(model_path) 
 model = load_model(model_path, compile = False)
 
-# Grad-CAM Function
 def make_gradcam_heatmap(img_array, model, last_conv_layer_name):
     grad_model = Model(
         inputs=[model.inputs],
@@ -34,7 +33,6 @@ def make_gradcam_heatmap(img_array, model, last_conv_layer_name):
     heatmap = tf.maximum(heatmap, 0) / tf.math.reduce_max(heatmap)
     return heatmap.numpy()
 
-# Apply heatmap on image
 def overlay_heatmap(img, heatmap, alpha=0.4):
     heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
     heatmap = np.uint8(255 * heatmap)
@@ -42,7 +40,6 @@ def overlay_heatmap(img, heatmap, alpha=0.4):
     superimposed = heatmap_color * alpha + img
     return np.uint8(superimposed)
 
-# Streamlit UI
 st.set_page_config(page_title="Pneumonia Detection", layout="centered")
 st.title("🩺 Pneumonia Detection from Chest X-ray")
 st.write("Upload a chest X-ray image and the model will classify it as **Normal** or **Pneumonia** with Grad-CAM.")
@@ -53,12 +50,10 @@ if uploaded_file:
     image = Image.open(uploaded_file).convert("RGB")
     st.image(image, caption="Uploaded Image", use_column_width=True)
 
-    # Preprocess
     image_resized = image.resize((224, 224))
     img_array = np.array(image_resized) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
-    # Predict
     prediction = model.predict(img_array)[0][0]
     label = "Pneumonia" if prediction > 0.5 else "Normal"
     confidence = float(prediction)
@@ -69,7 +64,6 @@ if uploaded_file:
     else:
         st.success(f"Normal — Confidence: {1 - confidence:.4f}")
 
-    # Grad-CAM
     last_conv_layer = "conv5_block16_concat"  
     heatmap = make_gradcam_heatmap(img_array, model, last_conv_layer)
 
@@ -78,7 +72,6 @@ if uploaded_file:
 
     st.image(superimposed_img, caption="Grad-CAM", use_column_width=True)
 
-    # Save prediction report as text
     report_text = f"""Prediction Report:
 -------------------
 Label: {label}
@@ -86,7 +79,6 @@ Confidence: {confidence:.4f}
 Model: {model.name}
 """
 
-    # Download report button
     buffer = io.BytesIO()
     buffer.write(report_text.encode())
     buffer.seek(0)
